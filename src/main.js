@@ -1,10 +1,12 @@
-import {createUserProfileTemplate} from "./view/profile.js";
-import {createMainMenuTemplate} from "./view/menu.js";
-import {createMainSortTemplate} from "./view/sort.js";
-import {createFilmMainContainerTemplate, createFilmListTemplate, createFilmExtraListTemplate} from "./view/films.js";
-import {createFilmCardTemplate} from "./view/card.js";
+import {createProfileTemplate} from "./view/profile.js";
+import {createMenuTemplate} from "./view/menu.js";
+import {createSortTemplate} from "./view/sort.js";
+import {createFilmsContainerTemplate} from "./view/films-container.js";
+import {createFilmListTemplate} from "./view/film-list.js";
+import {createFilmExtraTemplate} from "./view/film-extra.js";
+import {createCardTemplate} from "./view/card.js";
 import {createButtonTemplate} from "./view/button.js";
-import {createFilmCountTemplate} from "./view/count.js";
+import {createCountTemplate} from "./view/count.js";
 
 const FILMS_CARD_COUNT = 5;
 const FILMS_CARD_EXTRA_COUNT = 2;
@@ -14,40 +16,46 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
+const renderSeveral = (count, container, template, place) => {
+  for (let i = 0; i < count; i++) {
+    render(container, template, place);
+  }
+};
+
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
-render(siteHeaderElement, createUserProfileTemplate(), `beforeend`);
+render(siteHeaderElement, createProfileTemplate(), `beforeend`);
 
-//Вставка меню и сортировки
-render(siteMainElement, createMainSortTemplate(), 'afterbegin');
-render(siteMainElement, createMainMenuTemplate(), 'afterbegin');
+// Вставка меню и сортировки
+render(siteMainElement, createSortTemplate(), `afterbegin`);
+render(siteMainElement, createMenuTemplate(), `afterbegin`);
 
-//Вставка главного списка и карточек в него
-render(siteMainElement, createFilmMainContainerTemplate(), `beforeend`);
+// Вставка главного списка и карточек в него
+render(siteMainElement, createFilmsContainerTemplate(), `beforeend`);
 const filmMainElement = document.querySelector(`.films`);
 
 render(filmMainElement, createFilmListTemplate(), `beforeend`);
-const filmMainContainerElement = document.querySelector('.films-list__container');
-for (let i = 0; i < FILMS_CARD_COUNT; i++) {
-  render(filmMainContainerElement, createFilmCardTemplate(), `beforeend`);
-}
-const filmMainWrapperElement = filmMainElement.querySelector('.films-list');
+const filmMainContainerElement = filmMainElement.querySelector(`.films-list__container`);
+
+renderSeveral(FILMS_CARD_COUNT, filmMainContainerElement, createCardTemplate(), `beforeend`);
+
+const filmMainWrapperElement = filmMainElement.querySelector(`.films-list`);
 render(filmMainWrapperElement, createButtonTemplate(), `beforeend`);
 
-//Вставка списков Extra и карточек фильмов в них
+// Вставка списков Extra и карточек фильмов в них
 for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  render(filmMainElement, createFilmExtraListTemplate(), `beforeend`);
+  render(filmMainElement, createFilmExtraTemplate(), `beforeend`);
 }
 
-const filmExtraElements = document.querySelectorAll('.films-list--extra');
+const filmExtraElements = filmMainElement.querySelectorAll(`.films-list--extra`);
 
-for (let i = 0; i < filmExtraElements.length; i++) {
-  let filmExtraContainerElements = filmExtraElements[i].querySelector('.films-list__container');
-  for (let j = 0; j < FILMS_CARD_EXTRA_COUNT; j++)
-  render(filmExtraContainerElements, createFilmCardTemplate(), `beforeend`);
-}
+filmExtraElements.forEach(
+    function (currentValue) {
+      let filmExtraContainerElements = currentValue.querySelector(`.films-list__container`);
+      renderSeveral(FILMS_CARD_EXTRA_COUNT, filmExtraContainerElements, createCardTemplate(), `beforeend`);
+    });
 
-//Счетчик фильмов
-const filmCountElement = document.querySelector('.footer__statistics');
-render(filmCountElement, createFilmCountTemplate(), `beforeend`);
+// Счетчик фильмов
+const filmCountElement = document.querySelector(`.footer`);
+render(filmCountElement, createCountTemplate(), `beforeend`);
