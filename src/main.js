@@ -33,7 +33,7 @@ render(siteMainElement, createMenuTemplate(), `afterbegin`);
 
 // Вставка главного списка и карточек в него
 render(siteMainElement, createFilmsContainerTemplate(), `beforeend`);
-const filmMainElement = document.querySelector(`.films`);
+const filmMainElement = siteMainElement.querySelector(`.films`);
 
 render(filmMainElement, createFilmListTemplate(), `beforeend`);
 const filmMainContainerElement = filmMainElement.querySelector(`.films-list__container`);
@@ -44,14 +44,13 @@ const filmMainWrapperElement = filmMainElement.querySelector(`.films-list`);
 render(filmMainWrapperElement, createButtonTemplate(), `beforeend`);
 
 // Вставка списков Extra и карточек фильмов в них
-for (let i = 0; i < FILMS_EXTRA_COUNT; i++) {
-  render(filmMainElement, createFilmExtraTemplate(), `beforeend`);
-}
+
+renderSeveral(FILMS_EXTRA_COUNT, filmMainElement, createFilmExtraTemplate(), `beforeend`);
 
 const filmExtraElements = filmMainElement.querySelectorAll(`.films-list--extra`);
 
 filmExtraElements.forEach(
-    function (currentValue) {
+    (currentValue) => {
       let filmExtraContainerElements = currentValue.querySelector(`.films-list__container`);
       renderSeveral(FILMS_CARD_EXTRA_COUNT, filmExtraContainerElements, createCardTemplate(), `beforeend`);
     });
