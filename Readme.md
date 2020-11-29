@@ -1,5 +1,6 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
+
 * Студент: [Константин Иващенко](https://htmlacademy.ru/profile/id1237687).
 * Наставник: [Альбина Токарчук](https://htmlacademy.ru/profile/id167491).
 
