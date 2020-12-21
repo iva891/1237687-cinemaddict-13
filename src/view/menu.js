@@ -9,12 +9,34 @@ export const createMenuTemplate = (array) => {
     countFavorite += element.isFavorite;
   });
 
+  const filterData = [{
+    title: `All movies`,
+  },
+  {
+    title: `Watchlist`,
+    value: countWatchlist
+  },
+  {
+    title: `History`,
+    value: countHistory
+  },
+  {
+    title: `Favorites`,
+    value: countFavorite
+  }
+  ];
+
+  const generateFilters = (obj) => {
+    if (obj.value) {
+      return `<a href="#${obj.title.toLowerCase()}" class="main-navigation__item">${obj.title} <span class="main-navigation__item-count">${obj.value}</span></a>`;
+    } else {
+      return `<a href="#${obj.title.toLowerCase().slice(0, 3)}" class="main-navigation__item">${obj.title}</a>`;
+    }
+  };
+
   return `<nav class="main-navigation">
   <div class="main-navigation__items">
-    <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-    <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${countWatchlist}</span></a>
-    <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${countHistory}</span></a>
-    <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${countFavorite}</span></a>
+      ${filterData.map((item) => generateFilters(item)).join(` `)}
   </div>
   <a href="#stats" class="main-navigation__additional">Stats</a>
 </nav>`;

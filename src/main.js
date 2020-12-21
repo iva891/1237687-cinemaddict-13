@@ -9,9 +9,11 @@ import {createButtonTemplate} from "./view/button.js";
 import {createCountTemplate} from "./view/count.js";
 import {generateFilm} from "./mock/films.js";
 import {createPopupTemplate} from "./view/popup.js";
+import {generateCountFilms} from "./mock/count-films.js";
+
 
 const FILMS_CARD_COUNT = 5;
-const FILMS_QUANTITY = 12;
+const FILMS_QUANTITY = 18;
 const FILMS_CARD_EXTRA_COUNT = 2;
 const FILMS_EXTRA_COUNT = 2;
 
@@ -48,7 +50,7 @@ const filmMainWrapperElement = filmMainElement.querySelector(`.films-list`);
 render(filmMainWrapperElement, createButtonTemplate(), `beforeend`);
 
 // Рендеринг карточек фильмов
-const showMoreBtn = document.querySelector(`.films-list__show-more`); // Кнопка показать еще
+const showMoreBtn = filmMainWrapperElement.querySelector(`.films-list__show-more`); // Кнопка показать еще
 let countCards = FILMS_CARD_COUNT; // Счетчик фильмов
 
 const renderCards = (count) => { // Функция рендеринга карт фильмов
@@ -64,15 +66,10 @@ const renderCards = (count) => { // Функция рендеринга карт
   }
 };
 
-if (FILMS_QUANTITY <= FILMS_CARD_COUNT) { // Если фильмов меньше или равно 5
-  for (let i = 0; i < FILMS_QUANTITY; i++) {
-    render(filmMainContainerElement, createCardTemplate(films[i]), `beforeend`);
-  }
-  showMoreBtn.remove();
-} else {
-  renderCards(countCards);
-  countCards += FILMS_CARD_COUNT;
-}
+
+renderCards(countCards);
+countCards += FILMS_CARD_COUNT;
+
 
 showMoreBtn.addEventListener(`click`, function () {
   renderCards(countCards);
@@ -95,7 +92,7 @@ filmExtraElements.forEach(
 
 // Счетчик фильмов
 const filmCountElement = document.querySelector(`.footer`);
-render(filmCountElement, createCountTemplate(), `beforeend`);
+render(filmCountElement, createCountTemplate(generateCountFilms()), `beforeend`);
 
 // Popup
 const bodyElement = document.querySelector(`body`);

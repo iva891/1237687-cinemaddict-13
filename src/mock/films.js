@@ -1,33 +1,14 @@
 import dayjs from "dayjs";
+import {TEXT, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
 
-const TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
-
-
-const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-const getRandomArrayElement = (array) => {
-  const randomIndex = getRandomInteger(0, array.length - 1);
-  return array[randomIndex];
-};
-
-const getSeveralRandomArrayElement = (array, minElem = 0, maxElem = array.length - 1) => {
-  const numberSentence = getRandomInteger(minElem, maxElem);
-  let randomElements = [];
-  for (let i = 0; i < numberSentence; i++) {
-    let checkElement = array[getRandomInteger(0, array.length - 1)];
-    if (randomElements.includes(checkElement)) {
-      i--;
-    } else {
-      randomElements.push(checkElement);
-    }
-  }
-  return randomElements;
-};
+const MIN_DESCRIPTION_SENTENCES = 1;
+const MAX_DESCRIPTION_SENTENCES = 5;
+const MIN_GENRES = 1;
+const MAX_GENRES = 3;
+const MIN_WRITERS = 1;
+const MAX_WRITERS = 3;
+const MIN_ACTORS = 1;
+const MAX_ACTORS = 5;
 
 const generateTitle = () => {
   const titles = [
@@ -54,13 +35,6 @@ const generatePoster = () => {
   return getRandomArrayElement(posters);
 };
 
-const generateDescription = () => {
-  const textArray = TEXT.match(/[^\.!\?]+[\.!\?]+[`']?/g);
-
-  let result = getSeveralRandomArrayElement(textArray, 1, 5);
-  return result.join(` `);
-};
-
 const generateGenres = () => {
   const genres = [
     `Drama`,
@@ -71,7 +45,7 @@ const generateGenres = () => {
     `Western`
   ];
 
-  let result = getSeveralRandomArrayElement(genres, 1, 3);
+  let result = getSeveralRandomArrayElement(genres, MIN_GENRES, MAX_GENRES);
 
   return result;
 };
@@ -96,7 +70,7 @@ const generateWriters = () => {
     `Richard Weil`
   ];
 
-  let result = getSeveralRandomArrayElement(writers, 1, 3);
+  let result = getSeveralRandomArrayElement(writers, MIN_WRITERS, MAX_WRITERS);
   return result.join(`, `);
 };
 
@@ -113,7 +87,7 @@ const generateActors = () => {
     `Leonardo DiCaprio`
   ];
 
-  let result = getSeveralRandomArrayElement(actors, 1, 5);
+  let result = getSeveralRandomArrayElement(actors, MIN_ACTORS, MAX_ACTORS);
   return result.join(`, `);
 };
 
@@ -136,7 +110,7 @@ export const generateFilm = () => {
     title,
     originalTitle: title,
     poster: generatePoster(),
-    description: generateDescription(),
+    description: generateRandomText(TEXT, MIN_DESCRIPTION_SENTENCES, MAX_DESCRIPTION_SENTENCES),
     comments: getRandomInteger(0, 5),
     rating: `${getRandomInteger(1, 9)}.${getRandomInteger(1, 9)}`,
     productYear,
