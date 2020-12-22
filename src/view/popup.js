@@ -1,43 +1,70 @@
-import {getRandomInteger} from "../utils.js";
+import {feelings, getRandomInteger} from "../utils.js";
 import {generateComment} from "../mock/comments.js";
-
-const createGenresTemplate = (array) => {
-  let genresTitle = (array.length === 1) ? `Genre` : `Genres`;
-  let genresBlock = ``;
-  for (let i = 0; i < array.length; i++) {
-    genresBlock = genresBlock + `<span class="film-details__genre">${array[i]}</span>`;
-  }
-  return `<td class="film-details__term">${genresTitle}</td>
-  <td class="film-details__cell">
-    ${genresBlock}
-  </td>`;
-};
 
 const MAX_COMMENTS = 5;
 
-const comments = new Array(getRandomInteger(0, MAX_COMMENTS)).fill().map(generateComment);
+const createGenresTemplate = (genres) => {
+  let genresTitle = (genres.length === 1) ? `Genre` : `Genres`;
+  const generateGenres = (genre) => {
+    return `<span class="film-details__genre">${genre}</span>`;
+  };
 
-const generateComments = (obj) => {
-  if (comments.length === 0) {
-    return ``;
-  } else {
-    return `<li class="film-details__comment">
+  return `<td class="film-details__term">${genresTitle}</td>
+  <td class="film-details__cell">
+    ${genres.map((genre) => generateGenres(genre)).join(` `)}
+  </td>`;
+};
+
+let comments = new Array(getRandomInteger(0, MAX_COMMENTS)).fill().map(generateComment);
+
+const generateComments = (comment) => {
+  return (comments.length === 0) ?
+    `` : `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-      <img src="${obj.emoji}" width="55" height="55" alt="emoji-smile">
+      <img src="./images/emoji/${comment.feeling}.png" width="55" height="55" alt="emoji-${comment.feeling}">
     </span>
     <div>
-      <p class="film-details__comment-text">${obj.text}</p>
+      <p class="film-details__comment-text">${comment.text}</p>
       <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${obj.author}</span>
-        <span class="film-details__comment-day">${obj.date} ${obj.time}</span>
+        <span class="film-details__comment-author">${comment.author}</span>
+        <span class="film-details__comment-day">${comment.date}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
   </li>`;
-  }
+
+};
+
+const generateEmojiControl = (feeling) => {
+  return `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${feeling}" value="${feeling}">
+  <label class="film-details__emoji-label" for="emoji-${feeling}">
+    <img src="./images/emoji/${feeling}.png" width="30" height="30" alt="emoji">
+  </label>`;
 };
 
 export const createPopupTemplate = (film) => {
+  const {
+    id,
+    title,
+    originalTitle,
+    poster,
+    description,
+    rating,
+    productFullDate,
+    duration,
+    genres,
+    director,
+    writers,
+    actors,
+    country,
+    ageRating,
+    isWatchlist,
+    isHistory,
+    isFavorite,
+  } = film;
+
+  comments = comments.filter((item) => item.idfilm === id);
+
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
@@ -46,67 +73,67 @@ export const createPopupTemplate = (film) => {
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src=${film.poster} alt="">
+          <img class="film-details__poster-img" src=${poster} alt="">
 
-        <p class="film-details__age">${film.ageRating}</p>
+        <p class="film-details__age">${ageRating}</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">${film.title}</h3>
-              <p class="film-details__title-original">Original: ${film.title}</p>
+              <h3 class="film-details__title">${title}</h3>
+              <p class="film-details__title-original">Original: ${originalTitle}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${film.rating}</p>
+              <p class="film-details__total-rating">${rating}</p>
             </div>
           </div>
 
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">${film.director}</td>
+              <td class="film-details__cell">${director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${film.writers}</td>
+              <td class="film-details__cell">${writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">${film.actors}</td>
+              <td class="film-details__cell">${actors}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${film.productFullDate}</td>
+              <td class="film-details__cell">${productFullDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${film.duration}</td>
+              <td class="film-details__cell">${duration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">${film.country}</td>
+              <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-                ${createGenresTemplate(film.genres)}
+                ${createGenresTemplate(genres)}
             </tr>
           </table>
 
           <p class="film-details__film-description">
-            ${film.description}
+            ${description}
           </p>
         </div>
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isHistory ? `checked` : ``}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite"${isFavorite ? `checked` : ``}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -127,25 +154,7 @@ export const createPopupTemplate = (film) => {
           </label>
 
           <div class="film-details__emoji-list">
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-            <label class="film-details__emoji-label" for="emoji-smile">
-              <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-            <label class="film-details__emoji-label" for="emoji-sleeping">
-              <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-            <label class="film-details__emoji-label" for="emoji-puke">
-              <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-            </label>
-
-            <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-            <label class="film-details__emoji-label" for="emoji-angry">
-              <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-            </label>
+          ${feelings.map((feeling) => generateEmojiControl(feeling)).join(` `)}
           </div>
         </div>
       </section>

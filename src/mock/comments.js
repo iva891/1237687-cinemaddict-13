@@ -1,17 +1,13 @@
 import dayjs from "dayjs";
-import {TEXT, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, UNIVERSAL_ID, feelings, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
 
-const MIN_COMMENTS_SENTENCES = 1;
-const MAX_COMMENTS_SENTENCES = 3;
+const CommentSentences = {
+  MIN: 1,
+  MAX: 3
+};
 
-const generateCommentEmoji = () => {
-  const emojis = [
-    `./images/emoji/angry.png`,
-    `./images/emoji/puke.png`,
-    `./images/emoji/sleeping.png`,
-    `./images/emoji/smile.png`
-  ];
-  return getRandomArrayElement(emojis);
+const generateCommentFeeling = () => {
+  return getRandomArrayElement(feelings);
 };
 
 const generateCommentAuthor = () => {
@@ -27,10 +23,10 @@ const generateCommentAuthor = () => {
 
 export const generateComment = () => {
   return {
-    text: generateRandomText(TEXT, MIN_COMMENTS_SENTENCES, MAX_COMMENTS_SENTENCES),
-    emoji: generateCommentEmoji(),
-    date: dayjs().subtract(getRandomInteger(0, 9), `day`).format(`DD/MM/YYYY`),
-    time: `${getRandomInteger(0, 2)}${getRandomInteger(0, 3)}:${getRandomInteger(0, 5)}${getRandomInteger(0, 9)}`,
+    idfilm: UNIVERSAL_ID,
+    text: generateRandomText(TEXT, CommentSentences.MIN, CommentSentences.MAX),
+    feeling: generateCommentFeeling(),
+    date: dayjs().subtract(getRandomInteger(0, 22700), `minute`).format(`DD/MM/YYYY HH:mm`),
     author: generateCommentAuthor()
   };
 };

@@ -16,6 +16,7 @@ const FILMS_CARD_COUNT = 5;
 const FILMS_QUANTITY = 18;
 const FILMS_CARD_EXTRA_COUNT = 2;
 const FILMS_EXTRA_COUNT = 2;
+const ESCAPE_KEY = `Escape`;
 
 const films = new Array(FILMS_QUANTITY).fill().map(generateFilm);
 
@@ -53,27 +54,24 @@ render(filmMainWrapperElement, createButtonTemplate(), `beforeend`);
 const showMoreBtn = filmMainWrapperElement.querySelector(`.films-list__show-more`); // Кнопка показать еще
 let countCards = FILMS_CARD_COUNT; // Счетчик фильмов
 
-const renderCards = (count) => { // Функция рендеринга карт фильмов
-  if (count >= FILMS_QUANTITY) {
-    for (let i = count - FILMS_CARD_COUNT; i < FILMS_QUANTITY; i++) {
+const renderCards = () => { // Функция рендеринга карт фильмов
+  if (countCards >= FILMS_QUANTITY) {
+    for (let i = countCards - FILMS_CARD_COUNT; i < FILMS_QUANTITY; i++) {
       render(filmMainContainerElement, createCardTemplate(films[i]), `beforeend`);
     }
     showMoreBtn.remove();
   } else {
-    for (let i = count - FILMS_CARD_COUNT; i < count; i++) {
+    for (let i = countCards - FILMS_CARD_COUNT; i < countCards; i++) {
       render(filmMainContainerElement, createCardTemplate(films[i]), `beforeend`);
     }
   }
+  countCards += FILMS_CARD_COUNT;
 };
 
-
-renderCards(countCards);
-countCards += FILMS_CARD_COUNT;
-
+renderCards();
 
 showMoreBtn.addEventListener(`click`, function () {
-  renderCards(countCards);
-  countCards += FILMS_CARD_COUNT;
+  renderCards();
 });
 
 // Вставка списков Extra и карточек фильмов в них
@@ -96,24 +94,23 @@ render(filmCountElement, createCountTemplate(generateCountFilms()), `beforeend`)
 
 // Popup
 const bodyElement = document.querySelector(`body`);
-const popupContainer = document.querySelector(`footer`);
-const openPopupBlocks = document.querySelectorAll(`.film-card`);
-let closePopupBtn;
+const popupContainer = bodyElement.querySelector(`footer`);
+const openPopupBlocks = filmMainContainerElement.querySelectorAll(`.film-card`);
 
 const closePopup = () => {
   bodyElement.classList.remove(`hide-overflow`);
-  document.querySelector(`.film-details`).remove();
+  bodyElement.querySelector(`.film-details`).remove();
 };
 
 openPopupBlocks[0].addEventListener(`click`, function () {
   bodyElement.classList.add(`hide-overflow`);
   render(popupContainer, createPopupTemplate(films[0]), `afterend`);
-  closePopupBtn = document.querySelector(`.film-details__close-btn`);
+  let closePopupBtn = bodyElement.querySelector(`.film-details__close-btn`);
   closePopupBtn.addEventListener(`click`, function () {
     closePopup();
   });
   document.addEventListener(`keydown`, function (evt) {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
+    if (evt.key === ESCAPE_KEY) {
       evt.preventDefault();
       closePopup();
     }

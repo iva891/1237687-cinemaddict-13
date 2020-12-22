@@ -1,14 +1,22 @@
 import dayjs from "dayjs";
-import {TEXT, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, UNIVERSAL_ID, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
 
-const MIN_DESCRIPTION_SENTENCES = 1;
-const MAX_DESCRIPTION_SENTENCES = 5;
-const MIN_GENRES = 1;
-const MAX_GENRES = 3;
-const MIN_WRITERS = 1;
-const MAX_WRITERS = 3;
-const MIN_ACTORS = 1;
-const MAX_ACTORS = 5;
+const Sentences = {
+  MIN: 1,
+  MAX: 5
+};
+const Genres = {
+  MIN: 1,
+  MAX: 3
+};
+const Writers = {
+  MIN: 1,
+  MAX: 3
+};
+const Actors = {
+  MIN: 1,
+  MAX: 5
+};
 
 const generateTitle = () => {
   const titles = [
@@ -45,7 +53,7 @@ const generateGenres = () => {
     `Western`
   ];
 
-  let result = getSeveralRandomArrayElement(genres, MIN_GENRES, MAX_GENRES);
+  let result = getSeveralRandomArrayElement(genres, Genres.MIN, Genres.MAX);
 
   return result;
 };
@@ -70,7 +78,7 @@ const generateWriters = () => {
     `Richard Weil`
   ];
 
-  let result = getSeveralRandomArrayElement(writers, MIN_WRITERS, MAX_WRITERS);
+  let result = getSeveralRandomArrayElement(writers, Writers.MIN, Writers.MAX);
   return result.join(`, `);
 };
 
@@ -87,7 +95,7 @@ const generateActors = () => {
     `Leonardo DiCaprio`
   ];
 
-  let result = getSeveralRandomArrayElement(actors, MIN_ACTORS, MAX_ACTORS);
+  let result = getSeveralRandomArrayElement(actors, Actors.MIN, Actors.MAX);
   return result.join(`, `);
 };
 
@@ -107,10 +115,11 @@ export const generateFilm = () => {
   let title = generateTitle();
   let productYear = getRandomInteger(1950, 2007);
   return {
+    id: UNIVERSAL_ID,
     title,
     originalTitle: title,
     poster: generatePoster(),
-    description: generateRandomText(TEXT, MIN_DESCRIPTION_SENTENCES, MAX_DESCRIPTION_SENTENCES),
+    description: generateRandomText(TEXT, Sentences.MIN, Sentences.MAX),
     comments: getRandomInteger(0, 5),
     rating: `${getRandomInteger(1, 9)}.${getRandomInteger(1, 9)}`,
     productYear,

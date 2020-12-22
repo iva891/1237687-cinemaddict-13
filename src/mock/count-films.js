@@ -1,3 +1,5 @@
+import {getRandomInteger} from "../utils.js";
+
 export const generateCountFilms = () => {
-  return Math.floor(Math.random() * 1000000).toLocaleString();
+  return getRandomInteger(0, 1000000).toLocaleString();
 };

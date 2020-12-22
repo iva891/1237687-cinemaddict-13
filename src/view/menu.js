@@ -1,9 +1,9 @@
-export const createMenuTemplate = (array) => {
+export const createMenuTemplate = (films) => {
   let countWatchlist = 0;
   let countHistory = 0;
   let countFavorite = 0;
 
-  array.forEach((element) => {
+  films.forEach((element) => {
     countWatchlist += element.isWatchlist;
     countHistory += element.isHistory;
     countFavorite += element.isFavorite;
@@ -26,12 +26,8 @@ export const createMenuTemplate = (array) => {
   }
   ];
 
-  const generateFilters = (obj) => {
-    if (obj.value) {
-      return `<a href="#${obj.title.toLowerCase()}" class="main-navigation__item">${obj.title} <span class="main-navigation__item-count">${obj.value}</span></a>`;
-    } else {
-      return `<a href="#${obj.title.toLowerCase().slice(0, 3)}" class="main-navigation__item">${obj.title}</a>`;
-    }
+  const generateFilters = (filter) => {
+    return `<a href="#${filter.value ? filter.title.toLowerCase() : filter.title.toLowerCase().slice(0, 3)}" class="main-navigation__item">${filter.title}${filter.value ? `<span class="main-navigation__item-count">${filter.value}</span>` : ``}</a>`;
   };
 
   return `<nav class="main-navigation">
