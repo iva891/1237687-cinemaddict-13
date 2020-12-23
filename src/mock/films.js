@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, UNIVERSAL_ID, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
 
 const Sentences = {
   MIN: 1,
@@ -16,6 +16,20 @@ const Writers = {
 const Actors = {
   MIN: 1,
   MAX: 5
+};
+
+const generateIdComments = () => {
+  const ids = [
+    0,
+    1,
+    2,
+    3,
+    4
+  ];
+
+  let result = getSeveralRandomArrayElement(ids, 0, ids.length - 1);
+
+  return result;
 };
 
 const generateTitle = () => {
@@ -115,7 +129,7 @@ export const generateFilm = () => {
   let title = generateTitle();
   let productYear = getRandomInteger(1950, 2007);
   return {
-    id: UNIVERSAL_ID,
+    idcomments: generateIdComments(),
     title,
     originalTitle: title,
     poster: generatePoster(),

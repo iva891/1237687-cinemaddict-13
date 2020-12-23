@@ -118,3 +118,6 @@ openPopupBlocks[0].addEventListener(`click`, function () {
     once: true
   });
 });
+
+const filters = siteMainElement.querySelectorAll(`.main-navigation__item`);
+filters[0].classList.add(`main-navigation__item--active`);

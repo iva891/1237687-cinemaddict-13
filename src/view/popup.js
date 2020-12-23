@@ -1,4 +1,4 @@
-import {feelings, getRandomInteger} from "../utils.js";
+import {FEELINGS} from "../utils.js";
 import {generateComment} from "../mock/comments.js";
 
 const MAX_COMMENTS = 5;
@@ -15,19 +15,31 @@ const createGenresTemplate = (genres) => {
   </td>`;
 };
 
-let comments = new Array(getRandomInteger(0, MAX_COMMENTS)).fill().map(generateComment);
+let comments = new Array(MAX_COMMENTS).fill().map(generateComment);
+
+comments.forEach((element, i) => {
+  element.id = i;
+});
 
 const generateComments = (comment) => {
+
+  const {
+    feeling,
+    text,
+    author,
+    date
+  } = comment;
+
   return (comments.length === 0) ?
     `` : `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
-      <img src="./images/emoji/${comment.feeling}.png" width="55" height="55" alt="emoji-${comment.feeling}">
+      <img src="./images/emoji/${feeling}.png" width="55" height="55" alt="emoji-${feeling}">
     </span>
     <div>
-      <p class="film-details__comment-text">${comment.text}</p>
+      <p class="film-details__comment-text">${text}</p>
       <p class="film-details__comment-info">
-        <span class="film-details__comment-author">${comment.author}</span>
-        <span class="film-details__comment-day">${comment.date}</span>
+        <span class="film-details__comment-author">${author}</span>
+        <span class="film-details__comment-day">${date}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>
@@ -44,7 +56,7 @@ const generateEmojiControl = (feeling) => {
 
 export const createPopupTemplate = (film) => {
   const {
-    id,
+    idcomments,
     title,
     originalTitle,
     poster,
@@ -63,7 +75,7 @@ export const createPopupTemplate = (film) => {
     isFavorite,
   } = film;
 
-  comments = comments.filter((item) => item.idfilm === id);
+  comments = comments.filter((item) => idcomments.includes(item.id) === true);
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -154,7 +166,7 @@ export const createPopupTemplate = (film) => {
           </label>
 
           <div class="film-details__emoji-list">
-          ${feelings.map((feeling) => generateEmojiControl(feeling)).join(` `)}
+          ${FEELINGS.map((feeling) => generateEmojiControl(feeling)).join(` `)}
           </div>
         </div>
       </section>

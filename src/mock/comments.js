@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, UNIVERSAL_ID, feelings, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, FEELINGS, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
 
 const CommentSentences = {
   MIN: 1,
@@ -7,7 +7,7 @@ const CommentSentences = {
 };
 
 const generateCommentFeeling = () => {
-  return getRandomArrayElement(feelings);
+  return getRandomArrayElement(FEELINGS);
 };
 
 const generateCommentAuthor = () => {
@@ -23,7 +23,6 @@ const generateCommentAuthor = () => {
 
 export const generateComment = () => {
   return {
-    idfilm: UNIVERSAL_ID,
     text: generateRandomText(TEXT, CommentSentences.MIN, CommentSentences.MAX),
     feeling: generateCommentFeeling(),
     date: dayjs().subtract(getRandomInteger(0, 22700), `minute`).format(`DD/MM/YYYY HH:mm`),
