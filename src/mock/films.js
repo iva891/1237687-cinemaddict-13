@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
 
 const Sentences = {
   MIN: 1,
@@ -19,13 +19,11 @@ const Actors = {
 };
 
 const generateIdComments = () => {
-  const ids = [
-    0,
-    1,
-    2,
-    3,
-    4
-  ];
+  let ids = [];
+
+  for (let i = 0; i < MAX_COMMENTS; i++) {
+    ids[i] = i;
+  }
 
   let result = getSeveralRandomArrayElement(ids, 0, ids.length - 1);
 

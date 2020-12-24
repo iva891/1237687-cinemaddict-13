@@ -1,7 +1,5 @@
-import {FEELINGS} from "../utils.js";
+import {FEELINGS, MAX_COMMENTS} from "../utils.js";
 import {generateComment} from "../mock/comments.js";
-
-const MAX_COMMENTS = 5;
 
 const createGenresTemplate = (genres) => {
   let genresTitle = (genres.length === 1) ? `Genre` : `Genres`;
@@ -16,10 +14,6 @@ const createGenresTemplate = (genres) => {
 };
 
 let comments = new Array(MAX_COMMENTS).fill().map(generateComment);
-
-comments.forEach((element, i) => {
-  element.id = i;
-});
 
 const generateComments = (comment) => {
 

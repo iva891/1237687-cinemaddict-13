@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, FEELINGS, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, FEELINGS, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
 
 const CommentSentences = {
   MIN: 1,
@@ -23,6 +23,7 @@ const generateCommentAuthor = () => {
 
 export const generateComment = () => {
   return {
+    id: getRandomInteger(0, MAX_COMMENTS),
     text: generateRandomText(TEXT, CommentSentences.MIN, CommentSentences.MAX),
     feeling: generateCommentFeeling(),
     date: dayjs().subtract(getRandomInteger(0, 22700), `minute`).format(`DD/MM/YYYY HH:mm`),
