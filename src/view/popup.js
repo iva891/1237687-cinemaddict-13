@@ -50,7 +50,7 @@ const generateEmojiControl = (feeling) => {
 
 export const createPopupTemplate = (film) => {
   const {
-    idcomments,
+    idComments,
     title,
     originalTitle,
     poster,
@@ -69,7 +69,7 @@ export const createPopupTemplate = (film) => {
     isFavorite,
   } = film;
 
-  comments = comments.filter((item) => idcomments.includes(item.id));
+  comments = comments.filter((item) => idComments.includes(item.id));
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">

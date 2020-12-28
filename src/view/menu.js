@@ -27,7 +27,7 @@ export const createMenuTemplate = (films) => {
   ];
 
   const generateFilters = (filter) => {
-    return `<a href="#${filter.value ? filter.title.toLowerCase() : filter.title.toLowerCase().slice(0, 3)}" class="main-navigation__item">${filter.title} ${filter.value ? `<span class="main-navigation__item-count">${filter.value}</span>` : ``}</a>`;
+    return `<a href="#${filter.value ? filter.title.toLowerCase() : filter.title.toLowerCase().slice(0, 3)}" class="main-navigation__item${filter.value ? `` : ` main-navigation__item--active`}">${filter.title} ${filter.value ? `<span class="main-navigation__item-count">${filter.value}</span>` : ``}</a>`;
   };
 
   return `<nav class="main-navigation">

@@ -39,9 +39,6 @@ render(siteHeaderElement, createProfileTemplate(), `beforeend`);
 render(siteMainElement, createSortTemplate(), `afterbegin`);
 render(siteMainElement, createMenuTemplate(films), `afterbegin`);
 
-const filters = siteMainElement.querySelectorAll(`.main-navigation__item`);
-filters[0].classList.add(`main-navigation__item--active`);
-
 // Вставка главного списка и карточек в него
 render(siteMainElement, createFilmsContainerTemplate(), `beforeend`);
 
