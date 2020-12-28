@@ -69,7 +69,7 @@ export const createPopupTemplate = (film) => {
     isFavorite,
   } = film;
 
-  comments = comments.filter((item) => idcomments.includes(item.id) === true);
+  comments = comments.filter((item) => idcomments.includes(item.id));
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">

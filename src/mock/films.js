@@ -127,7 +127,7 @@ export const generateFilm = () => {
   let title = generateTitle();
   let productYear = getRandomInteger(1950, 2007);
   return {
-    idcomments: generateIdComments(),
+    idComments: generateIdComments(),
     title,
     originalTitle: title,
     poster: generatePoster(),
