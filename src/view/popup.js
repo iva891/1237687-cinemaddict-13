@@ -1,4 +1,4 @@
-import {FEELINGS, MAX_COMMENTS} from "../utils.js";
+import {FEELINGS, MAX_COMMENTS, createElement} from "../utils.js";
 import {generateComment} from "../mock/comments.js";
 
 const createGenresTemplate = (genres) => {
@@ -48,7 +48,7 @@ const generateEmojiControl = (feeling) => {
   </label>`;
 };
 
-export const createPopupTemplate = (film) => {
+const createPopupTemplate = (film) => {
   const {
     idComments,
     title,
@@ -168,3 +168,25 @@ export const createPopupTemplate = (film) => {
   </form>
 </section>`;
 };
+
+export default class Popup {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
