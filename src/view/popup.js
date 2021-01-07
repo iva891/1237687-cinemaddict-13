@@ -1,6 +1,5 @@
 import {FEELINGS, MAX_COMMENTS, createElement} from "../utils.js";
 import {generateComment} from "../mock/comments.js";
-
 const createGenresTemplate = (genres) => {
   let genresTitle = (genres.length === 1) ? `Genre` : `Genres`;
   const generateGenres = (genre) => {

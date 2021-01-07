@@ -1,5 +1,4 @@
 import {createElement} from "../utils.js";
-
 const createFilmsContainerTemplate = () => {
   return `<section class="films"></section>`;
 };

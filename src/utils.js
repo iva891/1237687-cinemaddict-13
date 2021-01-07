@@ -6,7 +6,6 @@ export const FEELINGS = [
   `sleeping`,
   `smile`
 ];
-
 export const MAX_COMMENTS = 5;
 
 export const getRandomInteger = (a = 0, b = 1) => {

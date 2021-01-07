@@ -1,5 +1,4 @@
 import {createElement} from "../utils.js";
-
 const createMenuTemplate = (films) => {
   let countWatchlist = 0;
   let countHistory = 0;

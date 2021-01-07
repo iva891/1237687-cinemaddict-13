@@ -1,5 +1,4 @@
 import {createElement} from "../utils.js";
-
 const createButtonTemplate = () => {
   return `<button class="films-list__show-more">Show more</button>`;
 };
