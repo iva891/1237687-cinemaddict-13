@@ -1,5 +1,5 @@
 import {createElement} from "../utils.js";
-const MAX_DESCRIPTION_LENGTH = 140;
+const MAX_DESCRIPTION_TEXT_LENGTH = 140;
 
 const createCardTemplate = (film) => {
   const {
@@ -18,8 +18,8 @@ const createCardTemplate = (film) => {
 
   const getDescription = () => {
     let shotDescription;
-    if (description.length > MAX_DESCRIPTION_LENGTH) {
-      shotDescription = description.slice(0, MAX_DESCRIPTION_LENGTH - 1) + `...`;
+    if (description.length > MAX_DESCRIPTION_TEXT_LENGTH) {
+      shotDescription = description.slice(0, MAX_DESCRIPTION_TEXT_LENGTH - 1) + `...`;
     } else {
       shotDescription = description;
     }
