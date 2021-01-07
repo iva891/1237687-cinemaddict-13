@@ -21,6 +21,7 @@ const ESCAPE_KEY = `Escape`;
 
 const films = new Array(FILMS_QUANTITY).fill().map(generateFilm);
 
+const bodyElement = document.querySelector(`body`);
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
@@ -57,8 +58,6 @@ const openPopup = (i) => { // Функция открытия попапа
       evt.preventDefault();
       closePopup();
     }
-  }, {
-    once: true
   });
 };
 
@@ -123,9 +122,6 @@ filmExtraElements.forEach(
 // Счетчик фильмов
 const filmCountElement = document.querySelector(`.footer`);
 renderElement(filmCountElement, new CountView(generateCountFilms()).getElement(), RenderPosition.BEFOREEND);
-
-// Popup
-const bodyElement = document.querySelector(`body`);
 
 const closePopup = () => {
   bodyElement.classList.remove(`hide-overflow`);
