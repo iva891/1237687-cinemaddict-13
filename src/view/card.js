@@ -1,6 +1,7 @@
-const MAX_DESCRIPTION_LENGTH = 140;
+import {createElement} from "../utils.js";
+const MAX_DESCRIPTION_TEXT_LENGTH = 140;
 
-export const createCardTemplate = (film) => {
+const createCardTemplate = (film) => {
   const {
     title,
     poster,
@@ -17,8 +18,8 @@ export const createCardTemplate = (film) => {
 
   const getDescription = () => {
     let shotDescription;
-    if (description.length > MAX_DESCRIPTION_LENGTH) {
-      shotDescription = description.slice(0, MAX_DESCRIPTION_LENGTH - 1) + `...`;
+    if (description.length > MAX_DESCRIPTION_TEXT_LENGTH) {
+      shotDescription = description.slice(0, MAX_DESCRIPTION_TEXT_LENGTH - 1) + `...`;
     } else {
       shotDescription = description;
     }
@@ -43,3 +44,25 @@ export const createCardTemplate = (film) => {
   </div>
 </article>`;
 };
+
+export default class Card {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,4 +1,5 @@
-export const createMenuTemplate = (films) => {
+import {createElement} from "../utils.js";
+const createMenuTemplate = (films) => {
   let countWatchlist = 0;
   let countHistory = 0;
   let countFavorite = 0;
@@ -37,3 +38,25 @@ export const createMenuTemplate = (films) => {
   <a href="#stats" class="main-navigation__additional">Stats</a>
 </nav>`;
 };
+
+export default class Menu {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
