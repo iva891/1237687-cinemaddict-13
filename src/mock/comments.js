@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, FEELINGS, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, FEELINGS, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, generateRandomText} from "../utils/common.js";
 
 const CommentSentences = {
   MIN: 1,

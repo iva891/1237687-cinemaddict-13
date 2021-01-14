@@ -1,5 +1,7 @@
-import {FEELINGS, MAX_COMMENTS, createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
+import {FEELINGS, MAX_COMMENTS} from "../utils/common.js";
 import {generateComment} from "../mock/comments.js";
+
 const createGenresTemplate = (genres) => {
   let genresTitle = (genres.length === 1) ? `Genre` : `Genres`;
   const generateGenres = (genre) => {
@@ -168,24 +170,24 @@ const createPopupTemplate = (film) => {
 </section>`;
 };
 
-export default class Popup {
+export default class Popup extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
 }
