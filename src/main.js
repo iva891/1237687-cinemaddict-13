@@ -61,9 +61,7 @@ const openPopup = (i) => { // Функция открытия попапа
   const popupFilm = new PopupView(films[i]);
   bodyElement.appendChild(popupFilm.getElement());
 
-  popupFilm.setClickHandler(() => {
-    closePopup();
-  });
+  popupFilm.setClickHandler(closePopup);
   document.addEventListener(`keydown`, onEscPress);
 };
 
@@ -98,8 +96,10 @@ showMoreBtn.setClickHandler(() => {
 
 // Вставка списков Extra и карточек фильмов в них
 
-renderElement(filmMainElement, new FilmExtraView().firstChild, RenderPosition.BEFOREEND);
-renderElement(filmMainElement, new FilmExtraView().lastChild, RenderPosition.BEFOREEND);
+const something = new FilmExtraView().getElement();
+
+renderElement(filmMainElement, something.firstChild, RenderPosition.BEFOREEND);
+renderElement(filmMainElement, something.lastChild, RenderPosition.BEFOREEND);
 
 const filmExtraElements = filmMainElement.querySelectorAll(`.films-list--extra`);
 
