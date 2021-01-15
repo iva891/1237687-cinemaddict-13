@@ -55,10 +55,10 @@ const onEscPress = (evt) => { // Закрытие попапа по клавиш
   }
 };
 
-const openPopup = (i) => { // Функция открытия попапа
+const openPopup = (film) => { // Функция открытия попапа
   bodyElement.classList.add(`hide-overflow`);
 
-  const popupFilm = new PopupView(films[i]);
+  const popupFilm = new PopupView(film);
   bodyElement.appendChild(popupFilm.getElement());
 
   popupFilm.setClickHandler(closePopup);
@@ -72,7 +72,7 @@ const renderCards = () => { // Функция рендеринга карт фи
       filmCards.push(new CardView(films[i]));
       renderElement(filmMainContainerElement, filmCards[i], RenderPosition.BEFOREEND);
       filmCards[i].setClickHandler(() => {
-        openPopup(i);
+        openPopup(films[i]);
       });
     }
     showMoreBtn.getElement().remove();
@@ -81,7 +81,7 @@ const renderCards = () => { // Функция рендеринга карт фи
       filmCards.push(new CardView(films[i]));
       renderElement(filmMainContainerElement, filmCards[i], RenderPosition.BEFOREEND);
       filmCards[i].setClickHandler(() => {
-        openPopup(i);
+        openPopup(films[i]);
       });
     }
   }
@@ -96,10 +96,10 @@ showMoreBtn.setClickHandler(() => {
 
 // Вставка списков Extra и карточек фильмов в них
 
-const something = new FilmExtraView().getElement();
+const filmExtraElement = new FilmExtraView().getElement();
 
-renderElement(filmMainElement, something.firstChild, RenderPosition.BEFOREEND);
-renderElement(filmMainElement, something.lastChild, RenderPosition.BEFOREEND);
+renderElement(filmMainElement, filmExtraElement.firstChild, RenderPosition.BEFOREEND);
+renderElement(filmMainElement, filmExtraElement.lastChild, RenderPosition.BEFOREEND);
 
 const filmExtraElements = filmMainElement.querySelectorAll(`.films-list--extra`);
 
@@ -112,7 +112,7 @@ filmExtraElements.forEach(
         filmCardsExtra.push(new CardView(films[index]));
         renderElement(filmExtraContainerElements, filmCardsExtra[i], RenderPosition.BEFOREEND);
         filmCardsExtra[i].setClickHandler(() => {
-          openPopup(i);
+          openPopup(films[index]);
         });
       }
     });
