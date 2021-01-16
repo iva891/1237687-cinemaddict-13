@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {TEXT, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils.js";
+import {TEXT, MAX_COMMENTS, getRandomInteger, getRandomArrayElement, getSeveralRandomArrayElement, generateRandomText} from "../utils/common.js";
 
 const Sentences = {
   MIN: 1,

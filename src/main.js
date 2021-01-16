@@ -1,4 +1,5 @@
-import {getRandomInteger, renderElement, RenderPosition} from "./utils.js";
+import {getRandomInteger} from "./utils/common.js";
+import {renderElement, RenderPosition} from "./utils/render.js";
 import ProfileView from "./view/profile.js";
 import MenuView from "./view/menu.js";
 import SortView from "./view/sort.js";
@@ -24,25 +25,26 @@ const bodyElement = document.querySelector(`body`);
 const siteHeaderElement = bodyElement.querySelector(`.header`);
 const siteMainElement = bodyElement.querySelector(`.main`);
 
-renderElement(siteHeaderElement, new ProfileView().getElement(), RenderPosition.BEFOREEND);
+renderElement(siteHeaderElement, new ProfileView(), RenderPosition.BEFOREEND);
 
 // Вставка меню и сортировки
-renderElement(siteMainElement, new SortView().getElement(), RenderPosition.AFTERBEGIN);
-renderElement(siteMainElement, new MenuView(films).getElement(), RenderPosition.AFTERBEGIN);
+renderElement(siteMainElement, new SortView(), RenderPosition.AFTERBEGIN);
+renderElement(siteMainElement, new MenuView(films), RenderPosition.AFTERBEGIN);
 
 // Вставка главного списка и карточек в него
-renderElement(siteMainElement, new FilmsContainerView().getElement(), RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new FilmsContainerView(), RenderPosition.BEFOREEND);
 
 const filmMainElement = siteMainElement.querySelector(`.films`);
-renderElement(filmMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEND);
+renderElement(filmMainElement, new FilmListView(), RenderPosition.BEFOREEND);
 
 const filmMainContainerElement = filmMainElement.querySelector(`.films-list__container`);
 
 const filmMainWrapperElement = filmMainElement.querySelector(`.films-list`);
-renderElement(filmMainWrapperElement, new ButtonView().getElement(), RenderPosition.BEFOREEND);
+
+const showMoreBtn = new ButtonView();
+renderElement(filmMainWrapperElement, showMoreBtn, RenderPosition.BEFOREEND);
 
 // Рендеринг карточек фильмов
-const showMoreBtn = filmMainWrapperElement.querySelector(`.films-list__show-more`); // Кнопка показать еще
 let countCards = FILMS_CARD_COUNT; // Счетчик фильмов
 
 const onEscPress = (evt) => { // Закрытие попапа по клавише ESC
@@ -53,44 +55,34 @@ const onEscPress = (evt) => { // Закрытие попапа по клавиш
   }
 };
 
-const openPopup = (i) => { // Функция открытия попапа
+const openPopup = (film) => { // Функция открытия попапа
   bodyElement.classList.add(`hide-overflow`);
-  bodyElement.appendChild(new PopupView(films[i]).getElement());
-  let closePopupBtn = bodyElement.querySelector(`.film-details__close-btn`);
-  closePopupBtn.addEventListener(`click`, function () {
-    closePopup();
-  });
+
+  const popupFilm = new PopupView(film);
+  bodyElement.appendChild(popupFilm.getElement());
+
+  popupFilm.setClickHandler(closePopup);
   document.addEventListener(`keydown`, onEscPress);
-};
-
-const showPopup = (i, card) => {
-  card.querySelector(`.film-card__title`).addEventListener(`click`, function () {
-    openPopup(i);
-  });
-
-  card.querySelector(`.film-card__poster`).addEventListener(`click`, function () {
-    openPopup(i);
-  });
-
-  card.querySelector(`.film-card__comments`).addEventListener(`click`, function () {
-    openPopup(i);
-  });
 };
 
 let filmCards = [];
 const renderCards = () => { // Функция рендеринга карт фильмов
   if (countCards >= FILMS_QUANTITY) {
     for (let i = countCards - FILMS_CARD_COUNT; i < FILMS_QUANTITY; i++) {
-      filmCards.push(new CardView(films[i]).getElement());
+      filmCards.push(new CardView(films[i]));
       renderElement(filmMainContainerElement, filmCards[i], RenderPosition.BEFOREEND);
-      showPopup(i, filmCards[i]);
+      filmCards[i].setClickHandler(() => {
+        openPopup(films[i]);
+      });
     }
-    showMoreBtn.remove();
+    showMoreBtn.getElement().remove();
   } else {
     for (let i = countCards - FILMS_CARD_COUNT; i < countCards; i++) {
-      filmCards.push(new CardView(films[i]).getElement());
+      filmCards.push(new CardView(films[i]));
       renderElement(filmMainContainerElement, filmCards[i], RenderPosition.BEFOREEND);
-      showPopup(i, filmCards[i]);
+      filmCards[i].setClickHandler(() => {
+        openPopup(films[i]);
+      });
     }
   }
   countCards += FILMS_CARD_COUNT;
@@ -98,14 +90,16 @@ const renderCards = () => { // Функция рендеринга карт фи
 
 renderCards();
 
-showMoreBtn.addEventListener(`click`, function () {
+showMoreBtn.setClickHandler(() => {
   renderCards();
 });
 
 // Вставка списков Extra и карточек фильмов в них
 
-renderElement(filmMainElement, new FilmExtraView().getElement().firstChild, RenderPosition.BEFOREEND);
-renderElement(filmMainElement, new FilmExtraView().getElement().lastChild, RenderPosition.BEFOREEND);
+const filmExtraElement = new FilmExtraView().getElement();
+
+renderElement(filmMainElement, filmExtraElement.firstChild, RenderPosition.BEFOREEND);
+renderElement(filmMainElement, filmExtraElement.lastChild, RenderPosition.BEFOREEND);
 
 const filmExtraElements = filmMainElement.querySelectorAll(`.films-list--extra`);
 
@@ -115,15 +109,17 @@ filmExtraElements.forEach(
       let filmCardsExtra = [];
       for (let i = 0; i < FILMS_CARD_EXTRA_COUNT; i++) {
         let index = getRandomInteger(0, FILMS_QUANTITY - 1);
-        filmCardsExtra.push(new CardView(films[index]).getElement());
+        filmCardsExtra.push(new CardView(films[index]));
         renderElement(filmExtraContainerElements, filmCardsExtra[i], RenderPosition.BEFOREEND);
-        showPopup(index, filmCardsExtra[i]);
+        filmCardsExtra[i].setClickHandler(() => {
+          openPopup(films[index]);
+        });
       }
     });
 
 // Счетчик фильмов
 const filmCountElement = bodyElement.querySelector(`.footer`);
-renderElement(filmCountElement, new CountView(generateCountFilms()).getElement(), RenderPosition.BEFOREEND);
+renderElement(filmCountElement, new CountView(generateCountFilms()), RenderPosition.BEFOREEND);
 
 const closePopup = () => {
   bodyElement.classList.remove(`hide-overflow`);
